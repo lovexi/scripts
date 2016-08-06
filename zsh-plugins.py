@@ -33,7 +33,7 @@ def main(argv):
 	removing_message = 'Removing plugin {!s} in zsh now.'
 	duplicate_message = 'The plugin {!s} already exists in zshrc now.'
 	not_exist_message = 'The plugin {!s} doesn\' exist in plugins.'
-	success_message = 'Successfully {!s} plugin in zshrc config file.\nPlease use :PluginInstall to install our new plugin in vim'
+	success_message = 'Successfully {!s} plugin in zshrc config file.\nPlease source our lastest zsh configuration into terminal'
 
 	# Parsing args
 	try:
