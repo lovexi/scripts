@@ -2,11 +2,11 @@
 
 import sys, getopt
 from os import listdir
-from os.path import isfile, expanduser
+from os.path import exists, expanduser
 from file.replace import replace
 
 help_message = """
-usage: zshPlugin [-a plugin_name] [-h]
+usage: zshPlugin [-a/--add plugin_name] [-h/--help] [-l/--list] [-r/--remove plugin_name]
 
 The command to add plugin in ~/.zshrc conf file
 
@@ -32,26 +32,27 @@ def usage(complete_type = 0):
 	sys.exit()
 
 def list_plugin(zsh_plugin_path):
+	print('All plugins are listed as following:')
 	print(listdir(zsh_plugin_path))
 	sys.exit()
 
 def check_file(file_path, file_name):
-	if not isfile(file_path + file_name):
+	if not exists(file_path + file_name):
 		print(not_exist_message.format(file_name))
 		sys.exit()
 
-def add_plugin(zshrc_file, plugin_name):
-	for line in zshrc_file:
+def add_plugin(zshrc_path, plugin_name):
+	for line in open(zshrc_path):
 		if line.startswith('plugins'):
 			if plugin_name in line:
 				print (duplicate_message.format(plugin_name))
 				sys.exit()
-				line_length = len(line)
-				new_line = line[: line_length - 2] + '{!s} '.format(plugin_name) + line[line_length - 2 :]
-				replace(zshrc_path, line, new_line)
+			line_length = len(line)
+			new_line = line[: line_length - 2] + '{!s} '.format(plugin_name) + line[line_length - 2 :]
+			replace(zshrc_path, line, new_line)
 
-def remove_plugin(zshrc_file, plugin_name):
-	for line in zshrc_file:
+def remove_plugin(zshrc_path, plugin_name):
+	for line in open(zshrc_path):
 		if line.startswith('plugins'):
 			if plugin_name not in line:
 				print (not_exist_message.format(plugin_name))
@@ -89,13 +90,13 @@ def main(argv):
 			plugin_name = arg
 			print (adding_message.format(plugin_name))
 			check_file(zsh_plugin_path, plugin_name)
-			add_plugin(zshrc_file, plugin_name)
+			add_plugin(zshrc_path, plugin_name)
 
 		elif opt in ('-r', '--remove'):
 			operation = 'remove'
 			plugin_name = arg
 			print (removing_message.format(plugin_name))
-			remove_plugin(zshrc_file, plugin_name)
+			remove_plugin(zshrc_path, plugin_name)
 
 	print (success_message.format(operation))
 
