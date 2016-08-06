@@ -2,3 +2,6 @@
 
 # Start zsh-plugins.py file, all jobs are done in py script
 python3 ${SCRIPT_PATH}/zsh-plugins.py "$@"
+
+echo "Sourcing .zshrc config file now"
+source ~/.zshrc

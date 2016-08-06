@@ -57,12 +57,12 @@ def remove_plugin(zshrc_path, plugin_name):
 			if plugin_name not in line:
 				print (not_exist_message.format(plugin_name))
 				sys.exit()
-				plugin_index = line.find(plugin_name)
-				if not line[plugin_index - 1].isspace() or not line[plugin_index + len(plugin_name)].isspace():
-					print (not_exist_message.format(plugin_name))
-					sys.exit()
-				new_line = line[: plugin_index] + line[plugin_index + len(plugin_name) + 1 :]
-				replace(zshrc_path, line, new_line)
+			plugin_index = line.find(plugin_name)
+			if not line[plugin_index - 1].isspace() or not line[plugin_index + len(plugin_name)].isspace():
+				print (not_exist_message.format(plugin_name))
+				sys.exit()
+			new_line = line[: plugin_index] + line[plugin_index + len(plugin_name) + 1 :]
+			replace(zshrc_path, line, new_line)
 
 def main(argv):
 	# Find path to .vimrc file
