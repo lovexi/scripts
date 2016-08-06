@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import sys, getopt
-from os.path import expanduser
+from os.path import isfile, expanduser
 from file.replace import replace
 
 help_message = """
@@ -16,6 +16,12 @@ optional arguments:
 """
 operation = ''
 
+adding_message = 'Adding plugin {!s} in zsh now.'
+removing_message = 'Removing plugin {!s} in zsh now.'
+duplicate_message = 'The plugin {!s} already exists in zshrc now.'
+not_exist_message = 'The plugin {!s} doesn\' exist in plugins.'
+success_message = 'Successfully {!s} plugin in zshrc config file.\nPlease source our lastest zsh configuration into terminal'
+
 # Command name will be zshPlugin
 def usage(complete_type = 0):
 	if complete_type == 1:
@@ -23,17 +29,17 @@ def usage(complete_type = 0):
 	print (help_message)
 	sys.exit()
 
+def check_file(file_path, file_name):
+	if not isfile(file_path + file_name):
+		print (not_exist_message.format(file_name))
+		sys.exit()
+
 def main(argv):
 	# Find path to .vimrc file
 	home_path = expanduser("~")
 	zshrc_path = home_path + "/.zshrc"
 	zshrc_file = open(zshrc_path)
-
-	adding_message = 'Adding plugin {!s} in zsh now.'
-	removing_message = 'Removing plugin {!s} in zsh now.'
-	duplicate_message = 'The plugin {!s} already exists in zshrc now.'
-	not_exist_message = 'The plugin {!s} doesn\' exist in plugins.'
-	success_message = 'Successfully {!s} plugin in zshrc config file.\nPlease source our lastest zsh configuration into terminal'
+	zsh_plugin_path = home_path + '/.oh-my-zsh/plugins/'
 
 	# Parsing args
 	try:
@@ -49,6 +55,8 @@ def main(argv):
 			operation = 'add'
 			plugin_name = arg
 			print (adding_message.format(plugin_name))
+
+			check_file(zsh_plugin_path, plugin_name)
 			for line in zshrc_file:
 				if line.startswith('plugins'):
 					if plugin_name in line:
