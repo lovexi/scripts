@@ -3,7 +3,7 @@
 import sys, getopt
 from os import listdir
 from os.path import exists, expanduser
-from file.replace import replace
+import replace
 
 help_message = """
 usage: zshPlugin [-a/--add plugin_name] [-h/--help] [-l/--list] [-r/--remove plugin_name]

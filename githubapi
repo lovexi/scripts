@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+
+# Start MainClass.py file in github scripts folder, all jobs are done in py script
+python3 ${SCRIPT_PATH}/github/MainClass.py "$@"
+
