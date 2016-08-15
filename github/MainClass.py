@@ -8,7 +8,7 @@ import urllib
 import json
 import getopt
 
-CONFIG_FILE = os.environ["SCRIPT_PATH"] + "/github/githubConf.conf"
+CONFIG_FILE = os.environ["SCRIPT_PATH"] + "/../githubConf.conf"
 ACCOUNT_SECTION = "account"
 TOKEN_OPTION = "token"
 BASE_URL = "api.github.com"
@@ -67,7 +67,8 @@ def main(argv):
 			output = request_json(REPO_URL, cnx, headers)
 			print("All repos are listed as following:")
 			for repo in output:
-				print(repo["full_name"].find("/"))
+				repo_name = repo["full_name"]
+				print(repo_name[repo_name.find("/") + 1 :])
 		if opt in ["-n", "--notification"]:
 			output = request_json(NOTI_URL, cnx, headers)
 			print("All notifications are listed as following:")
